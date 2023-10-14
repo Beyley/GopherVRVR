@@ -1,0 +1,3 @@
+﻿using GopherVRVR;
+
+Global.Start();
