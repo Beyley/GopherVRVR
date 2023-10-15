@@ -7,10 +7,6 @@ namespace GopherVRVR;
 
 public class GopherClient
 {
-    public GopherClient()
-    {
-    }
-
     [Pure]
     public OneOf<byte[], List<GopherLine>, string> Transaction(string hostname, ushort port, string selector, GopherType type = GopherType.Submenu)
     {
@@ -20,16 +16,16 @@ public class GopherClient
         BufferedStream bufferedStream = new(stream);
 
         // 0x09 0x0A 0x0D are all invalid characters in selectors
-        if (selector.Contains('\x09') || selector.Contains('\x0A') || selector.Contains('\x0D')) 
+        if (selector.Contains('\x09') || selector.Contains('\x0A') || selector.Contains('\x0D'))
             throw new Exception("Invalid gopher URI?");
-        
+
         //Write the selector
         stream.Write(Encoding.UTF8.GetBytes(selector));
         stream.WriteByte((byte)'\r');
         stream.WriteByte((byte)'\n');
         stream.Flush();
 
-        MemoryStream memoryStream = new MemoryStream();
+        MemoryStream memoryStream = new();
         Span<byte> buf = stackalloc byte[4096];
         while (true)
         {
@@ -51,7 +47,7 @@ public class GopherClient
                     if (rawLine == null) break;
                     //. on its own indicates the end of the submenu
                     if (rawLine == ".") break;
-                    
+
                     string[] splitLine = rawLine.Split("\t");
                     if (splitLine.Length == 0) throw new Exception("Unable to parse gopher submenu!");
 
@@ -61,7 +57,7 @@ public class GopherClient
                         DisplayString = splitLine[0][1..],
                         Hostname = hostname,
                         Port = port,
-                        Selector = "",
+                        Selector = ""
                     };
 
                     if (splitLine.Length > 1) line.Selector = splitLine[1];

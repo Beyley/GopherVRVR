@@ -46,6 +46,10 @@ public static unsafe class Global
     public static float CameraPitch;
     public static float CameraZoom = 45f;
 
+    private static VertexArrayObject _ItemVao = null!;
+    private static Buffer<Vertex> _ItemBuffer = null!;
+    private static Buffer<InstanceData> _InstanceData = null!;
+
     public static void Start()
     {
         Logger.LogInfo(LogCategory.ProgramState, "Starting GopherVRVR");
@@ -62,7 +66,7 @@ public static unsafe class Global
 #endif
                 new APIVersion(4, 6)
             ),
-            PreferredDepthBufferBits = 32,
+            PreferredDepthBufferBits = 32
         };
         Window = Silk.NET.Windowing.Window.Create(options);
 
@@ -84,13 +88,13 @@ public static unsafe class Global
         _Shader = new Shader();
 
         List<Vertex> geometryBuilder = new();
-        
+
         const float floorHeight = -0.6f;
         const float worldWidth = 10;
         const float roadWidth = 2;
-        const float grassWidth = (worldWidth - roadWidth);
-        Vector4 grassColor = new Vector4(0, 0.2f, 0.1f, 1);
-        Vector4 roadColor = new Vector4(0.21f, 0.21f, 0.21f, 1);
+        const float grassWidth = worldWidth - roadWidth;
+        Vector4 grassColor = new(0, 0.2f, 0.1f, 1);
+        Vector4 roadColor = new(0.21f, 0.21f, 0.21f, 1);
 
         { //Create grass
             geometryBuilder.Add(new Vertex(new Vector3(-worldWidth, floorHeight, -worldWidth), new Vector2(0, 0), grassColor));
@@ -129,7 +133,7 @@ public static unsafe class Global
             geometryBuilder.Add(new Vertex(new Vector3(worldWidth - grassWidth, floorHeight, worldWidth), new Vector2(0, 0), roadColor));
             geometryBuilder.Add(new Vertex(new Vector3(worldWidth - grassWidth, floorHeight, -worldWidth), new Vector2(0, 0), roadColor));
             geometryBuilder.Add(new Vertex(new Vector3(-worldWidth + grassWidth, floorHeight, -worldWidth), new Vector2(0, 0), roadColor));
-            
+
             geometryBuilder.Add(new Vertex(new Vector3(-worldWidth, floorHeight, worldWidth - grassWidth), new Vector2(0, 0), roadColor));
             geometryBuilder.Add(new Vertex(new Vector3(worldWidth, floorHeight, worldWidth - grassWidth), new Vector2(0, 0), roadColor));
             geometryBuilder.Add(new Vertex(new Vector3(worldWidth, floorHeight, -worldWidth + grassWidth), new Vector2(0, 0), roadColor));
@@ -137,7 +141,7 @@ public static unsafe class Global
             geometryBuilder.Add(new Vertex(new Vector3(-worldWidth, floorHeight, -worldWidth + grassWidth), new Vector2(0, 0), roadColor));
             geometryBuilder.Add(new Vertex(new Vector3(worldWidth, floorHeight, -worldWidth + grassWidth), new Vector2(0, 0), roadColor));
         }
-        
+
         _WorldVertexBuffer = new Buffer<Vertex>((uint)geometryBuilder.Count, BufferTargetARB.ArrayBuffer, BufferUsageARB.StaticDraw);
 
         _Vao = new VertexArrayObject();
@@ -150,12 +154,12 @@ public static unsafe class Global
         {
             new InstanceData
             {
-                Matrix = Matrix4x4.Identity,
+                Matrix = Matrix4x4.Identity
             }
         });
         _WorldInstanceBuffer.Unbind();
         SetupVAO(_WorldVertexBuffer, _WorldInstanceBuffer, _Vao);
-        
+
         gl.DepthFunc(DepthFunction.Less);
 
         _Kb = Input.Keyboards[0];
@@ -165,7 +169,7 @@ public static unsafe class Global
             mouse.MouseMove += MouseMove;
             mouse.Scroll += MouseScroll;
         }
-        
+
         List<Vertex> geometryBuilderItem = new();
         geometryBuilderItem.AddRange(new Vertex[]
         {
@@ -175,35 +179,35 @@ public static unsafe class Global
             new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 0, 1, 1)),
             new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 0, 1)),
-        
+
             new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 0, 0, 1)),
             new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 0, 1, 1)),
-        
+
             new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 0, 1)),
             new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(0, 1, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-        
+
             new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 0, 1)),
             new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
             new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 0, 1)),
             new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-        
+
             new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 0, 0, 1)),
             new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 1, 1)),
             new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-        
+
             new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
             new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
@@ -216,14 +220,10 @@ public static unsafe class Global
         _ItemBuffer.SetData(geometryBuilderItem.ToArray());
         _ItemBuffer.Unbind();
         _InstanceData = AAAAA(10000, false);
-        
+
         _ItemVao = new VertexArrayObject();
         SetupVAO(_ItemBuffer, _InstanceData, _ItemVao);
     }
-
-    private static VertexArrayObject _ItemVao = null!;
-    private static Buffer<Vertex> _ItemBuffer = null!;
-    private static Buffer<InstanceData> _InstanceData = null!;
 
     public static Buffer<InstanceData> AAAAA(int numObjects, bool spiralLayout)
     {
@@ -246,11 +246,11 @@ public static unsafe class Global
                     (radius - 2000.0f) / 8.0f,
                     further * radius * MathF.Sin(theta)
                 ) * 0.01f;
-                float rotation = 900 - (theta * 360.0f / MathF.Tau);
+                float rotation = 900 - theta * 360.0f / MathF.Tau;
                 Matrix4x4 matrix = Matrix4x4.CreateRotationY(MathHelper.DegreesToRadians(rotation)) * Matrix4x4.CreateTranslation(translation);
                 data.Add(new InstanceData
                 {
-                    Matrix = matrix,
+                    Matrix = matrix
                 });
             }
 
@@ -289,21 +289,21 @@ public static unsafe class Global
         gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), null);
         gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.TexCoord)));
         gl.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.Color)));
-        
+
         instanceBuf.Bind();
         gl.VertexAttribPointer(3, 4, VertexAttribPointerType.Float, false, (uint)sizeof(InstanceData), (void*)0);
         gl.VertexAttribPointer(4, 4, VertexAttribPointerType.Float, false, (uint)sizeof(InstanceData), (void*)(sizeof(Vector4) * 1));
         gl.VertexAttribPointer(5, 4, VertexAttribPointerType.Float, false, (uint)sizeof(InstanceData), (void*)(sizeof(Vector4) * 2));
         gl.VertexAttribPointer(6, 4, VertexAttribPointerType.Float, false, (uint)sizeof(InstanceData), (void*)(sizeof(Vector4) * 3));
-        
+
         gl.VertexAttribDivisor(3, 1);
         gl.VertexAttribDivisor(4, 1);
         gl.VertexAttribDivisor(5, 1);
         gl.VertexAttribDivisor(6, 1);
-        
+
         vao.Unbind();
     }
-    
+
     private static void MouseScroll(IMouse arg1, ScrollWheel arg2)
     {
         CameraZoom -= arg2.Y * 2;
@@ -349,20 +349,20 @@ public static unsafe class Global
 
         Matrix4x4 view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
         Matrix4x4 projection = Matrix4x4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(CameraZoom), (float)Window.FramebufferSize.X / Window.FramebufferSize.Y, 0.1f, 1000.0f);
-        
+
         //Bind our used objects
         _Shader.Bind();
         _Vao.Bind();
-        
+
         _Shader.SetUniform("ProjectionMatrix", projection);
         _Shader.SetUniform("ViewMatrix", view);
         _WorldVertexBuffer.Bind();
         //Draw our world vertex buffer
         gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, _WorldVertexBuffer.Count, 1);
-        
+
         _ItemVao.Bind();
         gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, _ItemBuffer.Count, _InstanceData.Count);
-        
+
         ImGuiController.Render();
     }
 
@@ -374,7 +374,7 @@ public static unsafe class Global
         float moveSpeed = 2.5f * (float)dt;
 
         // Console.WriteLine(1.0 / dt);
-        
+
         if (_Kb.IsKeyPressed(Key.W))
             //Move forwards
             CameraPosition += new Vector3(MathF.Cos(MathHelper.DegreesToRadians(CameraYaw)), 0, MathF.Sin(MathHelper.DegreesToRadians(CameraYaw))) * moveSpeed;

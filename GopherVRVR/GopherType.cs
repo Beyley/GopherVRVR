@@ -29,5 +29,5 @@ public enum GopherType : byte
     DocumentRTFFile = (byte)'r',
     SoundFileUsuallyWAV = (byte)'s',
     DocumentPDFFile = (byte)'P',
-    DocumentXMLFile = (byte)'X',
+    DocumentXMLFile = (byte)'X'
 }
