@@ -13,6 +13,10 @@ namespace GopherVRVR;
 
 public static unsafe class Global
 {
+    private const float floorHeight = -0.6f;
+    private const float worldWidth = 10;
+    private const float roadWidth = 2;
+    private const float grassWidth = worldWidth - roadWidth;
     // ReSharper disable once InconsistentNaming
     public static GL gl = null!;
     public static IWindow Window = null!;
@@ -49,6 +53,12 @@ public static unsafe class Global
     private static VertexArrayObject _ItemVao = null!;
     private static Buffer<Vertex> _ItemBuffer = null!;
     private static Buffer<InstanceData> _InstanceData = null!;
+    private static readonly Vector4 grassColor = new(0, 0.2f, 0.1f, 1);
+    private static readonly Vector4 roadColor = new(0.21f, 0.21f, 0.21f, 1);
+
+    private static VertexArrayObject KioskVao = null!;
+    private static Buffer<Vertex> KioskBuffer = null!;
+    private static Buffer<InstanceData> KioskInstanceData = null!;
 
     public static void Start()
     {
@@ -89,12 +99,7 @@ public static unsafe class Global
 
         List<Vertex> geometryBuilder = new();
 
-        const float floorHeight = -0.6f;
-        const float worldWidth = 10;
-        const float roadWidth = 2;
-        const float grassWidth = worldWidth - roadWidth;
-        Vector4 grassColor = new(0, 0.2f, 0.1f, 1);
-        Vector4 roadColor = new(0.21f, 0.21f, 0.21f, 1);
+
 
         { //Create grass
             geometryBuilder.Add(new Vertex(new Vector3(-worldWidth, floorHeight, -worldWidth), new Vector2(0, 0), grassColor));
@@ -219,10 +224,177 @@ public static unsafe class Global
         _ItemBuffer.Bind();
         _ItemBuffer.SetData(geometryBuilderItem.ToArray());
         _ItemBuffer.Unbind();
-        _InstanceData = AAAAA(10000, false);
+        _InstanceData = AAAAA(5, false);
 
         _ItemVao = new VertexArrayObject();
         SetupVAO(_ItemBuffer, _InstanceData, _ItemVao);
+
+        Vector3 rlN_i0 = new(120, -528, 44);
+        Vector3 rlN_i1 = new(-120, -528, 44);
+        Vector3 rlN_i2 = new(0, -880, -28);
+        Vector3 rlN_i3 = new(120, -528, -100);
+        Vector3 rlN_i4 = new(-120, -528, -100);
+
+        Vector3 rlN_i10 = new(216, -528, -244);
+        Vector3 rlN_i11 = new(216, -528, 188);
+        Vector3 rlN_i12 = new(-216, -528, 188);
+        Vector3 rlN_i13 = new(-216, -528, -244);
+        Vector3 rlN_i14 = new(-216, -240, -244);
+        Vector3 rlN_i15 = new(216, -240, -244);
+        Vector3 rlN_i16 = new(216, -240, 188);
+        Vector3 rlN_i17 = new(-216, -240, 188);
+
+        Vector3 rlN_i20 = new(120, -240, 96);
+        Vector3 rlN_i21 = new(216, 0, 188);
+        Vector3 rlN_i22 = new(-216, 0, 188);
+        Vector3 rlN_i23 = new(-120, -240, 96);
+        Vector3 rlN_i24 = new(120, -240, -148);
+        Vector3 rlN_i25 = new(216, 0, -244);
+        Vector3 rlN_i26 = new(-216, 0, -244);
+        Vector3 rlN_i27 = new(-120, -240, -148);
+
+        List<Vertex> kioskBuilder = new();
+
+        Vector4 kioskColor = new(1, 1, 1, 1);
+        { //Top
+            kioskBuilder.Add(new Vertex(rlN_i1, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i2, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i0, new Vector2(0, 0), kioskColor));
+
+            kioskBuilder.Add(new Vertex(rlN_i0, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i2, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i3, new Vector2(0, 0), kioskColor));
+
+            kioskBuilder.Add(new Vertex(rlN_i3, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i2, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i4, new Vector2(0, 0), kioskColor));
+
+            kioskBuilder.Add(new Vertex(rlN_i4, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i2, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i1, new Vector2(0, 0), kioskColor));
+        }
+
+        { //Middle
+            //Face 1
+            kioskBuilder.Add(new Vertex(rlN_i16, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i11, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i10, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i16, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i10, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i15, new Vector2(0, 0), kioskColor));
+            
+            //Face 2
+            kioskBuilder.Add(new Vertex(rlN_i17, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i12, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i11, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i17, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i11, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i16, new Vector2(0, 0), kioskColor));
+            
+            //Face 3
+            kioskBuilder.Add(new Vertex(rlN_i14, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i13, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i12, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i14, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i12, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i17, new Vector2(0, 0), kioskColor));
+            
+            //Face 4
+            kioskBuilder.Add(new Vertex(rlN_i15, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i10, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i13, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i15, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i13, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i14, new Vector2(0, 0), kioskColor));
+            
+            //Bottom
+            kioskBuilder.Add(new Vertex(rlN_i14, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i17, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i16, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i14, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i16, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i15, new Vector2(0, 0), kioskColor));
+            
+            //Top
+            kioskBuilder.Add(new Vertex(rlN_i12, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i13, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i10, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i12, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i10, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i11, new Vector2(0, 0), kioskColor));
+        }
+
+        { //Bottom
+            //Face 1
+            kioskBuilder.Add(new Vertex(rlN_i21, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i20, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i24, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i21, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i24, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i25, new Vector2(0, 0), kioskColor)); 
+            
+            //Face 2
+            kioskBuilder.Add(new Vertex(rlN_i22, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i23, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i20, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i22, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i20, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i21, new Vector2(0, 0), kioskColor)); 
+            
+            //Face 3
+            kioskBuilder.Add(new Vertex(rlN_i26, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i27, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i23, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i26, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i23, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i22, new Vector2(0, 0), kioskColor)); 
+            
+            //Face 4
+            kioskBuilder.Add(new Vertex(rlN_i25, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i24, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i27, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i25, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i27, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i26, new Vector2(0, 0), kioskColor)); 
+            
+            //Bottom
+            kioskBuilder.Add(new Vertex(rlN_i26, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i22, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i21, new Vector2(0, 0), kioskColor));
+            
+            kioskBuilder.Add(new Vertex(rlN_i26, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i21, new Vector2(0, 0), kioskColor));
+            kioskBuilder.Add(new Vertex(rlN_i25, new Vector2(0, 0), kioskColor)); 
+        }
+
+        KioskBuffer = new((uint)kioskBuilder.Count, BufferTargetARB.ArrayBuffer, BufferUsageARB.StaticDraw);
+        KioskBuffer.Bind();
+        KioskBuffer.SetData(kioskBuilder.ToArray());
+        KioskBuffer.Unbind();
+
+        KioskInstanceData = new Buffer<InstanceData>(1, BufferTargetARB.ArrayBuffer, BufferUsageARB.StaticDraw);
+        KioskInstanceData.Bind();
+        KioskInstanceData.SetData(new InstanceData[]
+        {
+            new()
+            {
+                Matrix = Matrix4x4.CreateScale(new Vector3(0.001f, -0.001f, 0.001f)) * Matrix4x4.CreateTranslation(new Vector3(0, floorHeight, 0))
+            }
+        });
+        KioskInstanceData.Unbind();
+
+        KioskVao = new VertexArrayObject();
+        SetupVAO(KioskBuffer, KioskInstanceData, KioskVao);
     }
 
     public static Buffer<InstanceData> AAAAA(int numObjects, bool spiralLayout)
@@ -245,9 +417,10 @@ public static unsafe class Global
                     further * radius * MathF.Cos(theta),
                     (radius - 2000.0f) / 8.0f,
                     further * radius * MathF.Sin(theta)
-                ) * 0.01f;
+                ) * 0.001f;
+                translation.Y += floorHeight;
                 float rotation = 900 - theta * 360.0f / MathF.Tau;
-                Matrix4x4 matrix = Matrix4x4.CreateRotationY(MathHelper.DegreesToRadians(rotation)) * Matrix4x4.CreateTranslation(translation);
+                Matrix4x4 matrix = Matrix4x4.CreateScale(new Vector3(0.3f)) * Matrix4x4.CreateRotationY(MathHelper.DegreesToRadians(rotation)) * Matrix4x4.CreateTranslation(translation);
                 data.Add(new InstanceData
                 {
                     Matrix = matrix
@@ -356,12 +529,15 @@ public static unsafe class Global
 
         _Shader.SetUniform("ProjectionMatrix", projection);
         _Shader.SetUniform("ViewMatrix", view);
+
         _WorldVertexBuffer.Bind();
-        //Draw our world vertex buffer
-        gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, _WorldVertexBuffer.Count, 1);
+        gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, _WorldVertexBuffer.Count, _WorldInstanceBuffer.Count);
 
         _ItemVao.Bind();
         gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, _ItemBuffer.Count, _InstanceData.Count);
+
+        KioskVao.Bind();
+        gl.DrawArraysInstanced(PrimitiveType.Triangles, 0, KioskBuffer.Count, KioskInstanceData.Count);
 
         ImGuiController.Render();
     }
