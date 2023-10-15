@@ -42,12 +42,10 @@ public unsafe class Buffer<T> : IDisposable where T : unmanaged
 
     public void SetData(ReadOnlySpan<T> data, nint offset = 0)
     {
-        this.Bind();
         fixed (void* ptr = data)
         {
             Global.gl.BufferSubData(this.Target, offset, (nuint)(data.Length * sizeof(T)), ptr);
         }
-        this.Unbind();
     }
     ~Buffer()
     {

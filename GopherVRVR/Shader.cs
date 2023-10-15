@@ -69,9 +69,7 @@ public unsafe class Shader : IDisposable
 
     public void SetUniform(string name, Matrix4x4 mat)
     {
-        this.Bind();
         Global.gl.UniformMatrix4(this.GetUniformLocation(name), 1, false, (float*)&mat);
-        this.Unbind();
     }
     ~Shader()
     {

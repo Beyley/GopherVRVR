@@ -83,50 +83,6 @@ public static unsafe class Global
         _Shader = new Shader();
 
         List<Vertex> geometryBuilder = new();
-        geometryBuilder.AddRange(new Vertex[]
-        {
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(1.0f, 0.0f), new Vector4(0, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 0, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 0, 1)),
-
-            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 0, 0, 1)),
-            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 0, 1, 1)),
-
-            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 0, 1)),
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(0, 1, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 0, 1)),
-            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 0, 1)),
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 0, 0, 1)),
-            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 1, 1)),
-            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-
-            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 0, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
-            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1))
-        });
         
         const float floorHeight = -0.6f;
         const float worldWidth = 10;
@@ -182,21 +138,13 @@ public static unsafe class Global
         }
         
         _WorldVertexBuffer = new Buffer<Vertex>((uint)geometryBuilder.Count, BufferTargetARB.ArrayBuffer, BufferUsageARB.StaticDraw);
-        _WorldVertexBuffer.SetData(geometryBuilder.ToArray());
 
         _Vao = new VertexArrayObject();
-        _Vao.Bind();
         _WorldVertexBuffer.Bind();
-        gl.EnableVertexAttribArray(0);
-        gl.EnableVertexAttribArray(1);
-        gl.EnableVertexAttribArray(2);
-
-        gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), null);
-        gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.TexCoord)));
-        gl.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.Color)));
+        _WorldVertexBuffer.SetData(geometryBuilder.ToArray());
         _WorldVertexBuffer.Unbind();
-        _Vao.Unbind();
-
+        SetupVAO(_WorldVertexBuffer, _Vao);
+        
         gl.DepthFunc(DepthFunction.Less);
 
         _Kb = Input.Keyboards[0];
@@ -206,8 +154,75 @@ public static unsafe class Global
             mouse.MouseMove += MouseMove;
             mouse.Scroll += MouseScroll;
         }
+        
+        List<Vertex> geometryBuilderItem = new();
+        geometryBuilderItem.AddRange(new Vertex[]
+        {
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(1.0f, 0.0f), new Vector4(0, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 0, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 0, 1)),
+
+            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 0, 0, 1)),
+            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 0, 1, 1)),
+
+            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 0, 1)),
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(0, 1, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 0, 1)),
+            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 0, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 0, 1)),
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 0, 0, 1)),
+            new(new Vector3(0.5f, -0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(0, 1, 1, 1)),
+            new(new Vector3(-0.5f, -0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+
+            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, -0.5f), new Vector2(1.0f, 1.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(0.5f, 0.5f, 0.5f), new Vector2(1.0f, 0.0f), new Vector4(1, 0, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, 0.5f), new Vector2(0.0f, 0.0f), new Vector4(1, 1, 1, 1)),
+            new(new Vector3(-0.5f, 0.5f, -0.5f), new Vector2(0.0f, 1.0f), new Vector4(1, 1, 1, 1))
+        });
+        Buffer<Vertex> itemBuffer = new((uint)geometryBuilderItem.Count, BufferTargetARB.ArrayBuffer, BufferUsageARB.StaticDraw);
+        itemBuffer.Bind();
+        itemBuffer.SetData(geometryBuilderItem.ToArray());
+        itemBuffer.Unbind();
+        Item item = new Item(itemBuffer, Matrix4x4.CreateTranslation(new Vector3(1, 1, 1)), new VertexArrayObject());
+        SetupVAO(item.Buffer, item.Vao);
+        Items.Add(item);
     }
 
+    public static void SetupVAO(Buffer<Vertex> buf, VertexArrayObject vao)
+    {
+        vao.Bind();
+        buf.Bind();
+        gl.EnableVertexAttribArray(0);
+        gl.EnableVertexAttribArray(1);
+        gl.EnableVertexAttribArray(2);
+
+        gl.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), null);
+        gl.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.TexCoord)));
+        gl.VertexAttribPointer(2, 4, VertexAttribPointerType.Float, false, (uint)sizeof(Vertex), (void*)Marshal.OffsetOf<Vertex>(nameof(Vertex.Color)));
+        vao.Unbind();
+    }
+    
     private static void MouseScroll(IMouse arg1, ScrollWheel arg2)
     {
         CameraZoom -= arg2.Y * 2;
@@ -236,6 +251,8 @@ public static unsafe class Global
         }
     }
 
+    public static List<Item> Items = new();
+    
     public static void Render(double dt)
     {
         //Destroy any disposal objects that are queued for deletion
@@ -251,12 +268,27 @@ public static unsafe class Global
         gl.ClearColor(0, 14.0f / 256.0f, 38.0f / 256.0f, 1);
         gl.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
+        Matrix4x4 model = Matrix4x4.Identity;
+        Matrix4x4 view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
+        Matrix4x4 projection = Matrix4x4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(CameraZoom), (float)Window.FramebufferSize.X / Window.FramebufferSize.Y, 0.1f, 100.0f);
+        
         //Bind our used objects
         _Shader.Bind();
         _Vao.Bind();
+        
+        _Shader.SetUniform("ProjectionMatrix", projection);
+        _Shader.SetUniform("ViewMatrix", view);
+        _Shader.SetUniform("ModelMatrix", model);
         _WorldVertexBuffer.Bind();
         //Draw our world vertex buffer
         gl.DrawArrays(PrimitiveType.Triangles, 0, _WorldVertexBuffer.Count);
+        foreach (Item item in Items)
+        {
+            _Shader.SetUniform("ModelMatrix", item.ModelMatrix);
+            item.Vao.Bind();
+            item.Buffer.Bind();
+            gl.DrawArrays(PrimitiveType.Triangles, 0, item.Buffer.Count);
+        }
 
         ImGuiController.Render();
     }
@@ -279,13 +311,5 @@ public static unsafe class Global
         if (_Kb.IsKeyPressed(Key.D))
             //Move right
             CameraPosition += Vector3.Normalize(Vector3.Cross(CameraFront, CameraUp)) * moveSpeed;
-
-        Matrix4x4 model = Matrix4x4.Identity;
-        Matrix4x4 view = Matrix4x4.CreateLookAt(CameraPosition, CameraPosition + CameraFront, CameraUp);
-        Matrix4x4 projection = Matrix4x4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(CameraZoom), (float)Window.FramebufferSize.X / Window.FramebufferSize.Y, 0.1f, 100.0f);
-
-        _Shader.SetUniform("ProjectionMatrix", projection);
-        _Shader.SetUniform("ViewMatrix", view);
-        _Shader.SetUniform("ModelMatrix", model);
     }
 }
